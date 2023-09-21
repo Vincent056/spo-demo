@@ -1,0 +1,12 @@
+apiVersion: security-profiles-operator.x-k8s.io/v1alpha2
+kind: RawSelinuxProfile
+metadata:
+  name: nginx-secure-raw
+  namespace: nginx-deploy
+spec:
+  policy: |
+    (block nginx-secure_nginx-deploy
+    (blockinherit container)
+    (allow process nginx-secure_nginx-deploy.process ( tcp_socket ( listen )))
+    (allow process http_cache_port_t ( tcp_socket ( name_bind )))
+    (allow process node_t ( tcp_socket ( node_bind ))))
